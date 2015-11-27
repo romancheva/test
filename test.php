@@ -1,8 +1,11 @@
 <?php
 session_start();
-$words = [];
+
 if (isset($_SESSION['words'])) {
     $words = $_SESSION['words'];
+}else{
+    $words = [];
+
 }
 
 if (isset($_POST['action'])) {
@@ -14,8 +17,13 @@ if (isset($_POST['action'])) {
                 $_SESSION['words'] = $words;
             }
             break;
+        case "remove":
+            $_SESSION['words'] = [];
+            $words = [];
+            break;
     }
 }
+
 ?>
 
 <html>
@@ -39,6 +47,12 @@ if (isset($_POST['action'])) {
     <form method="post" class="form">
         <input type="hidden" name="action" value="add">
         <input name="word">
+        <input type="submit" class="btn btn-default">
+    </form>
+
+    <h2>Remove all</h2>
+    <form method="post" class="form">
+        <input type="hidden" name="action" value="remove">
         <input type="submit" class="btn btn-default">
     </form>
 </div>
