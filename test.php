@@ -19,7 +19,7 @@ if (isset($_POST['action'])) {
             break;
         case "remove":
             $_SESSION['words'] = [];
-            $words = [];
+            $words = ['default'];
             break;
     }
 }
