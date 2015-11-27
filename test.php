@@ -4,8 +4,7 @@ session_start();
 if (isset($_SESSION['words'])) {
     $words = $_SESSION['words'];
 }else{
-    $words = [];
-
+    $words = ['default'];
 }
 
 if (isset($_POST['action'])) {
@@ -18,8 +17,8 @@ if (isset($_POST['action'])) {
             }
             break;
         case "remove":
-            $_SESSION['words'] = [];
             $words = ['default'];
+            $_SESSION['words'] = $words;
             break;
     }
 }
