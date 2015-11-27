@@ -1,27 +1,42 @@
 <?php
-session_start();
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "test";
 
-if (isset($_SESSION['words'])) {
-    $words = $_SESSION['words'];
-}else{
-    $words = ['default'];
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
+$sql = "SELECT id, word FROM words";
+$result = $conn->query($sql);
+
+$words = [];
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $words[] = $row['word'];
+    }
+}
 if (isset($_POST['action'])) {
     $action = $_POST['action'];
     switch ($action) {
         case 'add':
             if (isset($_POST['word'])) {
+                $conn->query("INSERT INTO words (word) VALUES ('". $_POST['word'] . "')");
                 $words[] = $_POST['word'];
-                $_SESSION['words'] = $words;
             }
             break;
         case "remove":
-            $words = ['default'];
-            $_SESSION['words'] = $words;
+            $words = [];
+            $conn->query("DELETE FROM words");
             break;
     }
 }
+
+$conn->close();
 
 ?>
 
